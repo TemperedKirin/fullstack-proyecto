@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Employees CRUD</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header>
+    <h1>Proyecto Final Sistema RH</h1>
+    <nav>
+      <a href="/docs" target="_blank" rel="noopener">🔎 Swagger Docs</a>
+      <span id="env-widget" class="env-widget" aria-live="polite" title="Zona horaria y temperatura actual"></span>
+      </span>
+    </nav>
+  </header>
+
+  <main>
+    <section class="card">
+      <button id="btn-show-create">Nuevo empleado</button>
+    </section>
+
+    <section class="card" aria-labelledby="lista-emp">
+      <div class="row">
+        <h2 id="lista-emp">Empleados</h2>
+        <div class="search">
+          <input id="q" placeholder="Buscar por nombre o apellido" />
+          <button id="btn-search">Buscar</button>
+        </div>
+      </div>
+
+      <table id="tbl">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Gender</th>
+            <th>Birth Date</th>
+            <th>Título</th>
+            <th>Salario</th>
+            <th>Departamento</th>
+            <th>Hire Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <div class="pager" role="navigation" aria-label="Paginación">
+        <button id="prev" aria-label="Página anterior">«</button>
+        <span id="page-info" aria-live="polite"></span>
+        <button id="next" aria-label="Página siguiente">»</button>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="edit-dialog" aria-labelledby="titulo-dialogo">
+    <form id="edit-form" method="dialog">
+      <h3 id="titulo-dialogo">Editar empleado</h3>
+      <input type="hidden" name="emp_no" />
+      <div class="grid">
+        <label>
+          Nombre
+          <input name="first_name" required />
+        </label>
+        <label>
+          Apellido
+          <input name="last_name" required />
+        </label>
+        <label>
+          Género
+          <select name="gender" required>
+            <option value="M">M</option>
+            <option value="F">F</option>
+          </select>
+        </label>
+        <label>
+          Nacimiento
+          <input type="date" name="birth_date" required />
+        </label>
+        <label>
+          Contratación
+          <input type="date" name="hire_date" required />
+        </label>
+      </div>
+      <menu>
+        <button value="cancel" type="button">Cancelar</button>
+        <button id="btn-save" value="default">Guardar</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <dialog id="create-dialog" aria-labelledby="create-dialog-title">
+    <form id="create-form" method="dialog">
+      <h3 id="create-dialog-title">Nuevo empleado</h3>
+      <div class="grid">
+        <label>
+          Nombre
+          <input name="first_name" required />
+        </label>
+        <label>
+          Apellido
+          <input name="last_name" required />
+        </label>
+        <label>
+          Género
+          <select name="gender" required>
+            <option value="M">M</option>
+            <option value="F">F</option>
+          </select>
+        </label>
+        <label>
+          Nacimiento
+          <input type="date" name="birth_date" required />
+        </label>
+        <label>
+          Título
+          <select name="title" required></select>
+        </label>
+        <label>
+          Salario
+          <input type="number" name="salary" required min="1" />
+        </label>
+        <label>
+          Departamento
+          <select name="dept_no" required></select>
+        </label>
+      </div>
+      <menu>
+        <button value="cancel" type="button">Cancelar</button>
+        <button id="btn-create" value="default">Crear</button>
+      </menu>
+    </form>
+  </dialog>
+
+  <script src="/app.js"></script>
+</body>
+</html>
