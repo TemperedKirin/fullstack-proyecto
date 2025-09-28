@@ -84,9 +84,21 @@
           Contratación
           <input type="date" name="hire_date" required />
         </label>
+        <div>
+          <label for="edit-title">Puesto</label>
+          <select id="edit-title" name="title"></select>
+        </div>
+        <div>
+            <label for="edit-salary">Salario</label>
+            <input id="edit-salary" name="salary" type="number" step="1000" />
+        </div>
+        <div>
+            <label for="edit-dept">Departamento</label>
+            <select id="edit-dept" name="dept_no"></select>
+        </div>
       </div>
       <menu>
-        <button value="cancel" type="button">Cancelar</button>
+        <button value="cancel" type="button" id="btn-edit-cancel">Cancelar</button>
         <button id="btn-save" value="default">Guardar</button>
       </menu>
     </form>
@@ -129,7 +141,7 @@
         </label>
       </div>
       <menu>
-        <button value="cancel" type="button">Cancelar</button>
+        <button value="cancel" type="button" id="btn-create-cancel">Cancelar</button>
         <button id="btn-create" value="default">Crear</button>
       </menu>
     </form>

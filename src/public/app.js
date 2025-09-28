@@ -68,6 +68,9 @@ function renderPager(p) {
 const createDlg = $("#create-dialog");
 
 $("#btn-show-create").addEventListener("click", () => {
+  // Limpiar el formulario antes de mostrarlo
+  const form = $("#create-form");
+  if (form) form.reset();
   createDlg.showModal();
 });
 
@@ -118,6 +121,10 @@ createDlg.addEventListener("click", (e) => {
   if (!inDialog) createDlg.close();
 });
 
+$("#btn-create-cancel").addEventListener("click", () => {
+  createDlg.close();
+});
+
 // ---- Búsqueda ----
 $("#btn-search").addEventListener("click", () => {
   state.q = $("#q").value.trim();
@@ -145,6 +152,10 @@ $("#next").addEventListener("click", () => {
 const dlg = $("#edit-dialog");
 $("#edit-form").addEventListener("submit", onEditSave);
 
+$("#btn-edit-cancel").addEventListener("click", () => {
+  dlg.close();
+});
+
 async function onEdit(e) {
   const id = e.currentTarget.dataset.id;
   try {
@@ -159,6 +170,10 @@ async function onEdit(e) {
     form.gender.value = emp.gender || "M";
     form.birth_date.value = emp.birth_date || "";
     form.hire_date.value = emp.hire_date || "";
+    // Nuevos campos
+    if (form.title) form.title.value = emp.title || "";
+    if (form.salary) form.salary.value = emp.salary || "";
+    if (form.dept_no) form.dept_no.value = emp.dept_no || ""; 
 
     dlg.showModal();
   } catch (err) {
@@ -241,13 +256,22 @@ async function safeJson(res) {
 async function populateDepartments() {
   try {
     const res = await fetch('/api/departments');
-    if (!res.ok) throw new Error('Could not fetch departments');
+    if (!res.ok) throw new Error('No se pudieron cargar los departamentos');
     const departments = await res.json();
-    const select = document.querySelector('#create-dialog select[name="dept_no"]');
-    select.innerHTML = '<option value="">—</option>';
-    departments.forEach(dept => {
-      select.innerHTML += `<option value="${escapeHtml(dept.dept_no)}">${escapeHtml(dept.dept_name)}</option>`;
-    });
+    const createSelect = document.querySelector('#create-dialog select[name="dept_no"]');
+    const editSelect = document.querySelector('#edit-dialog select[name="dept_no"]');
+
+    const options = departments.map(dept =>
+      `<option value="${escapeHtml(dept.dept_no)}">${escapeHtml(dept.dept_name)}</option>`
+    ).join('');
+
+    if (createSelect) {
+      createSelect.innerHTML = '<option value="">—</option>' + options;
+    }
+    if (editSelect) {
+      
+      editSelect.innerHTML = '<option value="">—</option>' + options;
+    }
   } catch (err) {
     console.error(err);
   }
@@ -256,12 +280,18 @@ async function populateDepartments() {
 async function populateTitles() {
   try {
     const res = await fetch('/api/titles');
-    if (!res.ok) throw new Error('Could not fetch titles');
+    if (!res.ok) throw new Error('No se pudieron cargar los puestos');
     const titles = await res.json();
-    const select = document.querySelector('#create-dialog select[name="title"]');
-    select.innerHTML = '<option value="">—</option>';
-    titles.forEach(t => {
-      select.innerHTML += `<option value="${escapeHtml(t.title)}">${escapeHtml(t.title)}</option>`;
+    const createSelect = document.querySelector('#create-dialog select[name="title"]');
+    const editSelect = document.querySelector('#edit-dialog select[name="title"]');
+
+    const options = titles.map(t =>
+      `<option value="${escapeHtml(t.title)}">${escapeHtml(t.title)}</option>`
+    ).join('');
+
+    [createSelect, editSelect].forEach(select => {
+      if (!select) return;
+      select.innerHTML = '<option value="">—</option>' + options;
     });
   } catch (err) {
     console.error(err);
